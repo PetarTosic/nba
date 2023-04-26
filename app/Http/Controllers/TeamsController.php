@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Team;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,7 @@ class TeamsController extends Controller
      */
     public function index()
     {
-        $teams = Team::all();
+        $teams = Team::paginate(3);
 
         return view('teams', compact('teams'));
     }
@@ -30,9 +31,10 @@ class TeamsController extends Controller
      */
     public function show(string $id)
     {
-        $team = Team::findOrFail($id);
+        $team = Team::find($id);
+        $comments = Comment::where('team_id', $team->id)->paginate(3);
 
-        return view('singleteam', compact('team'));
+        return view('singleteam', compact('team', 'comments'));
     }
 
     /**

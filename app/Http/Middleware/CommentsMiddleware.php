@@ -15,9 +15,16 @@ class CommentsMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(str_contains(strtolower($request->content), "hate") || str_contains(strtolower($request->content), "idiot") || str_contains(strtolower($request->content), "stupid")) {
-            return redirect('/forbidden');
+        $forbiddenwords = ["hate", "idiot", "stupid"];
+
+        foreach($forbiddenwords as $fword) {
+            if(str_contains(strtolower($request->content), $fword)) {
+                return redirect('/forbidden');
+            }
         }
+        // if(str_contains(strtolower($request->content), "hate") || str_contains(strtolower($request->content), "idiot") || str_contains(strtolower($request->content), "stupid")) {
+        //     return redirect('/forbidden');
+        // }
         return $next($request);
     }
 }

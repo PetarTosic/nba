@@ -32,13 +32,16 @@ class AuthController extends Controller
       'password_confirmation' => 'required'
     ]);
 
+    $vercode = hash("sha256", rand());
+
     $user = User::create([
       'name' => $request->name,
       'email' => $request->email,
-      'password' => Hash::make($request->password)
+      'password' => Hash::make($request->password),
+      'verification_code' => $vercode
     ]);
 
-    $mailData = $user->only('id');
+    $mailData = $user->only('verification_code');
     Mail::to($user->email)->send(new CreateUserMail($mailData));
     
     return redirect('/signin')->with('status', 'You have signed up successfully.');
@@ -71,8 +74,8 @@ class AuthController extends Controller
     return redirect('/signin')->with('status', 'You have signed out!');
   }
 
-  public function verify($id) {
-    $user = User::find($id);
+  public function verify($verification_code) {
+    $user = User::where('verification_code', $verification_code)->first();
 
     if(!$user->email_verified_at) {
       $user->email_verified_at = date("Y-m-d h:i:sa");
@@ -80,6 +83,6 @@ class AuthController extends Controller
       return redirect('/')->with('status', 'Email has been verified!');
     }
     
-    return redirect('/')->with('errors', 'Email already verified!');
+    return redirect('/')->withErrors('Email already verified!');
   }
 }

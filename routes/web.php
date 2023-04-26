@@ -29,7 +29,7 @@ Route::post('/signup', [AuthController::class, 'signup']);
 Route::get('/signin', [AuthController::class, 'getsignin'])->middleware('auth2');
 Route::post('/signin', [AuthController::class, 'signin']);
 Route::get('/signout', [AuthController::class, 'signout']);
-Route::get('/verify/{id}', [AuthController::class, 'verify']);
+Route::get('/verify/{verification_code}', [AuthController::class, 'verify']);
 
 Route::get('/teams', [TeamsController::class, 'index'])->middleware('auth');
 Route::get('teams/{id}', [TeamsController::class, 'show'])->middleware('auth');
