@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/createcomment', [CommentsController::class, 'store']);
+Route::post('/createcomment', [CommentsController::class, 'store'])->middleware('comm');
+Route::get('/forbidden', [CommentsController::class, 'forbidden']);
 
 Route::get('/', function () {
     return view('welcome');
@@ -28,6 +29,7 @@ Route::post('/signup', [AuthController::class, 'signup']);
 Route::get('/signin', [AuthController::class, 'getsignin'])->middleware('auth2');
 Route::post('/signin', [AuthController::class, 'signin']);
 Route::get('/signout', [AuthController::class, 'signout']);
+Route::get('/verify/{id}', [AuthController::class, 'verify']);
 
 Route::get('/teams', [TeamsController::class, 'index'])->middleware('auth');
 Route::get('teams/{id}', [TeamsController::class, 'show'])->middleware('auth');

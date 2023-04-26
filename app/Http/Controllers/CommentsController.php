@@ -40,6 +40,10 @@ class CommentsController extends Controller
         return redirect('/teams/' . $team->id)->with('status', 'Comment posted successfully!');
     }
 
+    public function forbidden() {
+        return view('/forbidden-comment');
+    }
+
     /**
      * Display the specified resource.
      */

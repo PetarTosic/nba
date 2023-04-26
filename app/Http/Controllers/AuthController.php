@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CreateUserMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
@@ -30,13 +32,16 @@ class AuthController extends Controller
       'password_confirmation' => 'required'
     ]);
 
-    User::create([
+    $user = User::create([
       'name' => $request->name,
       'email' => $request->email,
       'password' => Hash::make($request->password)
     ]);
+
+    $mailData = $user->only('id');
+    Mail::to($user->email)->send(new CreateUserMail($mailData));
     
-    return redirect('/signup')->with('status', 'You have signed up successfully.');
+    return redirect('/signin')->with('status', 'You have signed up successfully.');
   }
 
   public function signIn(Request $request) {
@@ -51,6 +56,9 @@ class AuthController extends Controller
 
     $credentials = $request->only('email', 'password');
       if(Auth::attempt($credentials)) {
+        if(Auth::user()->email_verified_at == NULL) {
+          return $this->signOut();
+        }
         return redirect()->intended('/teams')->with('status', 'You have signed in successfully!');
       }
 
@@ -61,5 +69,17 @@ class AuthController extends Controller
     Session::flush();
     Auth::logout();
     return redirect('/signin')->with('status', 'You have signed out!');
+  }
+
+  public function verify($id) {
+    $user = User::find($id);
+
+    if(!$user->email_verified_at) {
+      $user->email_verified_at = date("Y-m-d h:i:sa");
+      $user->save();
+      return redirect('/')->with('status', 'Email has been verified!');
+    }
+    
+    return redirect('/')->with('errors', 'Email already verified!');
   }
 }
