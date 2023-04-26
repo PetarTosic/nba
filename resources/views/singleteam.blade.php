@@ -14,4 +14,20 @@
     </ul>
   </div>
   </div>
+  <form action="{{url('createcomment')}}" method="POST" class="mt-5 w-50">
+    @csrf
+    <div class="mb-3">
+        <label class="form-label">Enter your comment</label>
+        <textarea type="text" class="form-control" name="content" required></textarea>
+        <input type="hidden" name="team_id" value="{{ $team->id }}">
+    </div>
+    <button type="submit" class="btn btn-primary">Post Comment</button>
+  </form>
+
+  @include('components.comment')
+
+  <div class="container mt-5">
+    @include('layout.errors')
+    @include('layout.session')
+  </div>
 @endsection

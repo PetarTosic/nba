@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\TeamsController;
 use Illuminate\Support\Facades\Route;
@@ -16,16 +17,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/createcomment', [CommentsController::class, 'store']);
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/signup', [AuthController::class, 'getsignup']);
+Route::get('/signup', [AuthController::class, 'getsignup'])->middleware('auth2');
 Route::post('/signup', [AuthController::class, 'signup']);
-Route::get('/signin', [AuthController::class, 'getsignin']);
+Route::get('/signin', [AuthController::class, 'getsignin'])->middleware('auth2');
 Route::post('/signin', [AuthController::class, 'signin']);
 Route::get('/signout', [AuthController::class, 'signout']);
 
-Route::get('/teams', [TeamsController::class, 'index']);
-Route::get('teams/{id}', [TeamsController::class, 'show']);
-Route::get('teams/players/{id}', [PlayersController::class, 'show']);
+Route::get('/teams', [TeamsController::class, 'index'])->middleware('auth');
+Route::get('teams/{id}', [TeamsController::class, 'show'])->middleware('auth');
+Route::get('teams/players/{id}', [PlayersController::class, 'show'])->middleware('auth');

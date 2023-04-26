@@ -9,9 +9,11 @@
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
+        @auth
         <li class="nav-item">
           <a class="nav-link" href="/teams">Teams</a>
         </li>
+        @endauth
       </ul>
       <ul class="d-flex navbar-nav mb-2 mb-lg-0" role="search">
         @if (!auth()->check())

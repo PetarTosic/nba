@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
+use App\Models\User;
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class TeamsController extends Controller
+class CommentsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $teams = Team::all();
-
-        return view('teams', compact('teams'));
+        //
     }
 
     /**
@@ -22,7 +23,21 @@ class TeamsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'content' => 'required|min:10|max:5000|string',
+            'team_id' => 'required'
+        ]); 
+
+        $team = Team::find($request->team_id);
+        $user = User::find(Auth::user()->id);
+
+        $comment = new Comment();
+        $comment->content = $request->content;
+        $comment->user()->associate($user);
+        $comment->team()->associate($team);
+        $comment->save();
+
+        return redirect('/teams/' . $team->id)->with('status', 'Comment posted successfully!');
     }
 
     /**
@@ -30,9 +45,7 @@ class TeamsController extends Controller
      */
     public function show(string $id)
     {
-        $team = Team::findOrFail($id);
-
-        return view('singleteam', compact('team'));
+        //
     }
 
     /**
