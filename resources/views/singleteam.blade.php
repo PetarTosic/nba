@@ -8,7 +8,7 @@
     <p>{{ $team->city }}</p>
     <div class="border rounded p-2">Players:
     <ul>
-    @foreach ($team->players as $player)
+      @foreach ($team->players as $player)
       <li>{{$player->first_name}} {{$player->last_name}} <a href="players/{{$player->id}}" class="btn btn-sm btn-outline-secondary">View player</a></li>
     @endforeach
     </ul>
