@@ -16,7 +16,7 @@
     </ul>
   </div>
   </div>
-  <form action="{{url('createcomment')}}" method="POST" class="mt-5 w-50">
+  <form action="{{url('createcomment')}}" method="POST" class="m-5 w-50 container">
     @csrf
     <div class="mb-3">
         <label class="form-label">Enter your comment</label>
@@ -26,7 +26,9 @@
     <button type="submit" class="btn btn-primary">Post Comment</button>
   </form>
 
-  @include('components.comment')
+  <div class="container m-3">
+    @include('components.comment')
+  </div>
 
   <div class="container mt-5">
     @include('layout.errors')

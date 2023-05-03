@@ -29,14 +29,14 @@
     {{ $news }}
   </div>
 
-  <form action="{{url('createnews')}}" method="POST" class="mt-5 w-50">
+  <form action="{{url('createnews')}}" method="POST" class="m-5 w-50 container">
     @csrf
     <div class="mb-3">
         <label class="form-label">Enter title:</label>
         <input type="text" class="form-control" name="title" required>
         <label class="form-label">Enter news content:</label>
         <textarea type="text" class="form-control" name="content" required></textarea>
-        <select class="form-select" name="team[]" multiple>
+        <select class="form-select mt-3" name="team[]" multiple>
           @foreach ($teams as $team)
             <option value="{{$team->id}}">{{$team->name}}</option>
           @endforeach
