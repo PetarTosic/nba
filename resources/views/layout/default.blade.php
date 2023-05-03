@@ -6,7 +6,10 @@
 <body>
   @include('layout.navigation')
 
-  <main class="container mt-5 mb-5">
+  <main>
+    @include('layout.session')
+    @include('layout.errors')
+
     @yield('content') 
   </main>
 </body>

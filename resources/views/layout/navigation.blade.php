@@ -13,6 +13,9 @@
         <li class="nav-item">
           <a class="nav-link" href="/teams">Teams</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/news">News</a>
+        </li>
         @endauth
       </ul>
       <ul class="d-flex navbar-nav mb-2 mb-lg-0" role="search">

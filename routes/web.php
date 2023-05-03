@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentsController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\PlayersController;
 use App\Http\Controllers\TeamsController;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/news', [NewsController::class, 'index'])->middleware('auth');
+Route::get('/news/team/{name}', [NewsController::class, 'teamnews'])->middleware('auth');
+Route::get('/news/{id}', [NewsController::class, 'show'])->middleware('auth');
+Route::post('/createnews', [NewsController::class, 'store']);
 Route::get('/signup', [AuthController::class, 'getsignup'])->middleware('auth2');
 Route::post('/signup', [AuthController::class, 'signup']);
 Route::get('/signin', [AuthController::class, 'getsignin'])->middleware('auth2');

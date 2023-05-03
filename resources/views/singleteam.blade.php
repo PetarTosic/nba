@@ -6,6 +6,7 @@
     <p>{{ $team->address }}</p>
     <p>{{ $team->email }}</p>
     <p>{{ $team->city }}</p>
+    <a href="/news/team/{{ $team->name }}" class="btn btn-sm btn-outline-secondary mb-3">View team news</a>
     <div class="border rounded p-2">Players:
     <ul>
       @foreach ($team->players as $player)
