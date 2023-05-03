@@ -13,7 +13,7 @@
         <div class="card shadow-sm"> 
           <div class="card-body">
             <div>{{ $singlenews->user->name }}</div>
-            <div>Team/s: @foreach($singlenews->team as $team) | <a href="/teams/{{$team->id}}" class="btn btn-sm"> {{ $team->name }} </a>@endforeach</div>
+            <div>Team/s: @foreach($singlenews->teams as $team) | <a href="/teams/{{$team->id}}" class="btn btn-sm"> {{ $team->name }} </a>@endforeach</div>
             <p class="card-text"><strong>{{ $singlenews->title }}</strong></p>
             <p class="card-text">{{ $singlenews->content }}</p>
             <div class="d-flex justify-content-between align-items-center">
@@ -29,4 +29,7 @@
   </div>
 </div>
 @endforeach
+<div class="container m-3">
+  {{ $news }}
+</div>
 @endsection

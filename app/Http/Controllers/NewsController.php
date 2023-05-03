@@ -40,15 +40,20 @@ class NewsController extends Controller
         $news->save();
 
         foreach($request->team as $teamId) {
-            $news->team()->attach($teamId);
+            $news->teams()->attach($teamId);
         }
 
         return redirect('/news')->with('status', 'Thank you for publishing article on www.nba.com.');    
     }
 
     public function teamnews($name) {
-        $team = Team::where('name', $name)->get()[0];
-        $news = $team->news;
+        // $team = Team::where('name', $name)->get()[0];
+        // $news = $team->news;
+        
+        $news = News::whereHas('teams', function($query) use($name) {
+            $query->where('name', '=', $name);
+        })->paginate(3);
+
         $teams = Team::all();
 
         return view('teamnews', compact('news', 'name', 'teams'));

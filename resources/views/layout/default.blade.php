@@ -9,7 +9,7 @@
   <main>
     @include('layout.session')
     @include('layout.errors')
-
+    
     @yield('content') 
   </main>
 </body>

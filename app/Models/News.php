@@ -13,7 +13,7 @@ class News extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function team() {
+    public function teams() {
         return $this->belongsToMany(Team::class);
     }
 }
